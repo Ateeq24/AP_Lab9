@@ -1,0 +1,76 @@
+package lab9;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Lab9 {
+
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\hrehman.bscs13seecs\\Documents\\NetBeansProjects\\Lab9\\src\\lab9\\file.txt"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            Map<String,Integer> hm = new HashMap<String, Integer>();
+            myClass objects[] = null;
+            int counter = 0;
+            while (line != null) {
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+                String result = new String();
+                line = line.toLowerCase();
+                if (line.contains("let")) {
+                    result = line.substring(line.indexOf("let") + 1, line.indexOf("="));
+                    result.replaceAll("\\s+", "");
+                    if (result == "print") {
+                        System.out.println("Syntax Error: Let is followed by Print");
+                        return;
+                    }
+                    /*
+                    if (Integer.parseInt(result) >= 0 && Integer.parseInt(result) <= 9) {
+                        result = line.substring(1 + line.lastIndexOf("="));
+                    if (Integer.parseInt(result) >= 0 && Integer.parseInt(result) <= 9) 
+                        System.out.println("Syntax Error: integer is assigned to another integer");
+                        return;
+                    }*/
+                        result = line.substring(1 + line.lastIndexOf("="));
+                    
+                    hm.put(result,counter);
+                    objects[counter] = new myClass(result);
+                    counter++;
+                }
+                if (line.contains("print")) {
+                    result = line.substring(line.indexOf("print") + 1);
+                    if (Integer.parseInt(result) >= 0 && Integer.parseInt(result) <= 9)
+                    {
+                        
+                        System.out.println(result);
+                    }
+                    else
+                    {
+                        int x=hm.get(result);
+                        System.out.println(objects[x].getValue());
+                        
+                    }
+                    
+                }
+            }
+        }
+        return;
+    }
+
+    private static class myClass {
+
+        int x;
+
+        myClass(String given) {
+            x = Integer.parseInt(given);
+        }
+        int getValue()
+        {
+            return x;
+        }
+    }
+}
